@@ -11,7 +11,7 @@ public class CazadorUrbano extends Cazador {
 
     @Override
     protected void doIntimidar(IProfugo profugo) {
-        this.inocencia -= 2;
+        profugo.disminuirInocencia();
         profugo.dejarDeEstarNervioso();
     }
 
