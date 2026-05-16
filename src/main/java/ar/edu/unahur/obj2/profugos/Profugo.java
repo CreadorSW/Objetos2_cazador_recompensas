@@ -43,9 +43,7 @@ public class Profugo implements IProfugo {
 
     @Override
     public void reducirHabilidad() {
-        if (this.nivelDeHabilidad > 0) {
-            this.nivelDeHabilidad--;
-        }
+        this.nivelDeHabilidad = Math.max(0, this.nivelDeHabilidad - 5);
     }
 
     @Override

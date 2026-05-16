@@ -33,7 +33,8 @@ public abstract class Cazador {
 
     // Template Method
     public void intimidar(IProfugo profugo) {
-        doIntimidar(profugo);
+        profugo.disminuirInocencia(); // parte común
+        doIntimidar(profugo); // parte específica
     }
 
     protected abstract void doIntimidar(IProfugo profugo);
