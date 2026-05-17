@@ -13,4 +13,8 @@ public class Zona {
     public Zona(String nombre) {
         this.nombre = nombre;
     }
+
+    public Set<IProfugo> getProfugos() {
+        return profugos;
+    }
 }
