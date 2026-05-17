@@ -65,7 +65,7 @@
 
 == ¿Por qué nos dan la interfaz `IProfugo` desde el comienzo?
 
-Sí, es un indicio fuerte de que vamos a usar Decorator. Sin interfaz, el patrón no es posible limpiamente — necesitamos un tipo común (`IProfugo`) para que tanto el componente concreto (`Profugo`) como los decoradores sean intercambiables. Si el enunciado fuese distinto (ej: solo un `Profugo` concreto sin evolución), bastaba una clase sola y no hacía falta la interfaz. Al darla desde el principio, nos están diciendo "vas a necesitar polimorfismo sobre `IProfugo`", que es exactamente lo que pide el Decorator cuando los prófugos evolucionan apilando entrenamientos.
+Es un indicio fuerte de que vamos a usar Decorator. Sin interfaz, el patrón no es posible, necesitamos un tipo común (`IProfugo`) para que tanto el componente concreto (`Profugo`) como los decoradores sean intercambiables. Si el enunciado fuese distinto (ej: solo un `Profugo` concreto sin evolución), bastaba una clase sola y no hacía falta la interfaz. Al darla desde el principio, nos están diciendo "vas a necesitar polimorfismo sobre `IProfugo`", que es exactamente lo que pide el Decorator cuando los prófugos evolucionan apilando entrenamientos.
 
 == Construcción técnica del Decorator
 
