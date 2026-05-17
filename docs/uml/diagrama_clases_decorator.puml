@@ -1,0 +1,49 @@
+@startuml
+
+interface IProfugo {
+  +getInocencia(): Integer
+  +getHabilidad(): Integer
+  +esNervioso(): Boolean
+  +volverseNervioso(): void
+  +dejarDeEstarNervioso(): void
+  +reducirHabilidad(): void
+  +disminuirInocencia(): void
+}
+
+class Profugo implements IProfugo {
+  -nivelDeInocencia: Integer
+  -nivelDeHabilidad: Integer
+  -esNervioso: Boolean
+}
+
+abstract class ProfugoDecorator implements IProfugo {
+  # wrappee: IProfugo
+  +ProfugoDecorator(wrappee: IProfugo)
+  +getInocencia(): Integer
+  +getHabilidad(): Integer
+  +esNervioso(): Boolean
+  +volverseNervioso(): void
+  +dejarDeEstarNervioso(): void
+  +reducirHabilidad(): void
+  +disminuirInocencia(): void
+}
+
+class ArtesMarciales extends ProfugoDecorator {
+  +getHabilidad(): Integer
+}
+
+class EntrenamientoElite extends ProfugoDecorator {
+  +esNervioso(): Boolean
+  +volverseNervioso(): void
+  +dejarDeEstarNervioso(): void
+}
+
+class ProteccionLegal extends ProfugoDecorator {
+  +getInocencia(): Integer
+  +disminuirInocencia(): void
+}
+
+' === RELACIONES ===
+ProfugoDecorator o--> IProfugo : envuelve
+
+@enduml

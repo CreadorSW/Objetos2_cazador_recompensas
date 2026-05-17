@@ -106,6 +106,15 @@ El orden importa: el decorador más externo envuelve al siguiente, que envuelve 
   [`ProteccionLegal`],[`disminuirInocencia()`],[Puede delegar al wrappee pero la lectura queda pisada por el getter. O bien, directamente implementa el piso en 40.],
 )
 
+== Diagrama de clases decorator
+
+#image("uml/diagrama_clases_decorator.svg", width: 100%)
+
+*Leyenda de flechas:*
+$arrow.r.dotted$ — implements (realización de interfaz), $arrow.r.filled $ — extends (herencia de clase),
+$lozenge arrow.r$ — agregación (envuelve, tiene-un).
+
+
 == Conclusión: la gracia del patrón
 
 Cada decorador agrega una responsabilidad única sin modificar la clase base, y se pueden combinar arbitrariamente sin explosión de subclases. La interfaz `IProfugo` es el pegamento que hace esto posible: sin ella, no podríamos apilar comportamientos de forma transparente.
