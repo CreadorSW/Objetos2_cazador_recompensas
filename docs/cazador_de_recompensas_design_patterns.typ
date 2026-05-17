@@ -121,6 +121,8 @@ $lozenge arrow.r$ — agregación (envuelve, tiene-un).
 
 Los decoradores concretos extienden `ProfugoDecorator` y *overlinean solo los métodos que modifican*, llamando a `super.metodo()` (que delega al wrappee) y alterando el resultado. Sin el wrappee no hay decoración posible. Es el núcleo del patrón.
 
+ProfugoDecorator implementa *todos* los métodos de `IProfugo` porque es un *wrapper completo*. Desde afuera, un `ProfugoDecorator` se comporta exactamente como un `IProfugo` — el cliente (cualquier código que use un `IProfugo`) no sabe si está hablando con un `Profugo` base, un decorador, o una pila de decoradores.
+
 == Conclusión: la gracia del patrón
 
 Cada decorador agrega una responsabilidad única sin modificar la clase base, y se pueden combinar arbitrariamente sin explosión de subclases. La interfaz `IProfugo` es el pegamento que hace esto posible: sin ella, no podríamos apilar comportamientos de forma transparente.
