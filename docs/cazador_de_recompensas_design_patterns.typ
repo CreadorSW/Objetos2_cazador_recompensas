@@ -114,6 +114,12 @@ El orden importa: el decorador más externo envuelve al siguiente, que envuelve 
 $arrow.r.dotted$ — implements (realización de interfaz), $arrow.r.filled $ — extends (herencia de clase),
 $lozenge arrow.r$ — agregación (envuelve, tiene-un).
 
+`ProfugoDecorator` tiene solo dos cosas que la diferencian de `IProfugo`:
+
+1. *El atributo `wrappee: IProfugo`* — la referencia al objeto envuelto.
+2. *Delegación pura* — implementa todos los métodos de `IProfugo` llamando al mismo método del `wrappee`, sin agregar lógica.
+
+Los decoradores concretos extienden `ProfugoDecorator` y *overlinean solo los métodos que modifican*, llamando a `super.metodo()` (que delega al wrappee) y alterando el resultado. Sin el wrappee no hay decoración posible. Es el núcleo del patrón.
 
 == Conclusión: la gracia del patrón
 
