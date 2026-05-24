@@ -2,6 +2,7 @@ package ar.edu.unahur.obj2.profugos;
 
 public class Profugo implements IProfugo {
 
+    // Obviamente tiene que hacer un override a todos los métodos de IProfugo.
     protected Integer nivelDeInocencia;
     protected Integer nivelDeHabilidad;
     protected Boolean esNervioso;

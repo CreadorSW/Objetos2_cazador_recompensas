@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public abstract class Cazador {
 
-    protected Set<IProfugo> profugos = new HashSet<>();
+    protected Set<IProfugo> profugosCapturados = new HashSet<>();
     protected Integer experiencia;
 
     public Cazador(Integer experiencia) {
@@ -43,10 +43,10 @@ public abstract class Cazador {
     }
 
     // Template Method
-
+    // Obs: le paso un tipo IProfugo, así en el futuro puedo pasarle un prófugo decorado.
     public Boolean cazar(IProfugo profugo) {
         if (puedeCazar(profugo)) {
-            this.profugos.add(profugo);
+            this.profugosCapturados.add(profugo);
             return true;
         } else {
             intimidar(profugo);
