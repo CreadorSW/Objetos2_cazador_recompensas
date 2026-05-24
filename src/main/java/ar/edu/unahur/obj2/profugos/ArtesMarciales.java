@@ -9,6 +9,6 @@ public class ArtesMarciales extends ProfugoDecorator {
     // no necesito sobreescribir otros métodos, ya que los heredo de ProfugoDecorator.
     @Override
     public Integer getHabilidad() {
-        return wrappee.getHabilidad() + 10;
+        return Math.min(wrappee.getHabilidad() * 2, 100);
     }
 }

@@ -49,6 +49,6 @@ public class Profugo implements IProfugo {
 
     @Override
     public void disminuirInocencia() {
-        this.nivelDeHabilidad = Math.max(0, this.nivelDeInocencia - 2);
+        this.nivelDeInocencia = Math.max(0, this.nivelDeInocencia - 2);
     }
 }
