@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ar.edu.unahur.obj2</groupId>
@@ -46,17 +48,38 @@
             <executions>
                 <execution>
                     <goals>
-                        <goal>prepare-agent</goal> <!-- Habilita el agente de JaCoCo -->
+                        <goal
+                            >prepare-agent</goal> <!-- Habilita el agente de JaCoCo -->
                     </goals>
                 </execution>
                 <execution>
                     <id>report</id>
-                    <phase>test</phase> <!-- Genera el informe después de las pruebas -->
+                    <phase
+                        >test</phase> <!-- Genera el informe después de las pruebas -->
                     <goals>
-                        <goal>report</goal> <!-- Genera el informe de cobertura -->
+                        <goal
+                            >report</goal> <!-- Genera el informe de cobertura -->
                     </goals>
                 </execution>
             </executions>
+        </plugin>
+        <!-- Plugin de Jetty para servir el reporte de JaCoCo localmente -->
+        <plugin>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-maven-plugin</artifactId>
+            <version>11.0.16</version>
+            <configuration>
+                <supportedPackagings>
+                    <supportedPackaging>jar</supportedPackaging>
+                </supportedPackagings>
+                <webApp>
+                    <resourceBase
+                        >${project.build.directory}/site/jacoco</resourceBase>
+                </webApp>
+                <httpConnector>
+                    <port>8080</port>
+                </httpConnector>
+            </configuration>
         </plugin>
     </plugins>
     </build>
