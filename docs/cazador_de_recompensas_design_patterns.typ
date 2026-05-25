@@ -73,12 +73,12 @@ Tenemos cuatro actores:
 
 #table(
   columns: (auto, auto),
-  table.header[Componente][Rol],
+  table.header[Clase][Rol],
 
-  [`IProfugo`],[Contrato. Define todas las operaciones: `getInocencia()`, `getHabilidad()`, `esNervioso()`, `volverseNervioso()`, `dejarDeEstarNervioso()`, `reducirHabilidad()`, `disminuirInocencia()`],
-  [`Profugo`],[Componente concreto. Implementa `IProfugo` con estado real. Es el objeto base sin entrenamiento.],
-  [`ProfugoDecorator` (abstracta)],[Implementa `IProfugo` y tiene una referencia a un `IProfugo` envuelto (el "wrappee"). Por defecto, delega todos los métodos al wrappee.],
-  [Concretos (`ArtesMarciales`, `EntrenamientoElite`, `ProteccionLegal`)],[Extienden `ProfugoDecorator` y overridean solo los métodos que modifican.],
+  [`IProfugo` (Interfaz)],[_Componente_. Define todas las operaciones: `getInocencia()`, `getHabilidad()`, `esNervioso()`, `volverseNervioso()`, `dejarDeEstarNervioso()`, `reducirHabilidad()`, `disminuirInocencia()`],
+  [`Profugo`],[_Componente Concreto_. Implementa `IProfugo` con estado real. Es el objeto base sin entrenamiento.],
+  [`ProfugoDecorator` (abstracta)],[_Decorador Base_. Implementa `IProfugo` y tiene una referencia a un `IProfugo` envuelto (el "wrappee"). Su rol es delegar todos los métodos al wrappee.],
+  [`ArtesMarciales`, `EntrenamientoElite`, `ProteccionLegal`],[_Decoradores Concretos_. Extienden `ProfugoDecorator` y overridean solo los métodos que modifican.],
 )
 
 `ProfugoDecorator` es la clave: no repite lógica, solo pasa el mensaje al wrappee. En cada override de los concretos hacemos algo antes o después de llamar a `super.metodo()`, o evitamos la llamada si queremos bloquear el comportamiento.
@@ -98,17 +98,17 @@ El orden importa: el decorador más externo envuelve al siguiente, que envuelve 
   columns: (auto, auto, auto),
   table.header[Decorador][Método overrideado][Comportamiento],
 
-  [`ArtesMarciales`],[`getHabilidad()`],[Obtiene el valor del wrappee (`super.getHabilidad()`), lo duplica, lo capsula a 100 y lo devuelve. El resto de métodos se delegan sin cambios.],
+  [`ArtesMarciales`],[`getHabilidad()`],[Obtiene el valor del wrappee (`wrappee.getHabilidad()`), lo duplica, lo capsula a 100 y lo devuelve. El resto de métodos se delegan sin cambios.],
   [`EntrenamientoElite`],[`esNervioso()`],[Siempre devuelve `false`.],
   [`EntrenamientoElite`],[`volverseNervioso()`],[No hace nada (bloquea el efecto).],
-  [`EntrenamientoElite`],[`dejarDeEstarNervioso()`],[No hace nada (ya es falso siempre).],
-  [`ProteccionLegal`],[`getInocencia()`],[Devuelve `Math.max(40, super.getInocencia())`.],
-  [`ProteccionLegal`],[`disminuirInocencia()`],[Puede delegar al wrappee pero la lectura queda pisada por el getter. O bien, directamente implementa el piso en 40.],
+  [`EntrenamientoElite`],[`dejarDeEstarNervioso()`],[No está overridden, delega al wrappee. Al estar pisado `esNervioso()` en false, es irrelevante.],
+  [`ProteccionLegal`],[`getInocencia()`],[Devuelve `Math.max(40, wrappee.getInocencia())`.],
+  [`ProteccionLegal`],[`disminuirInocencia()`],[Solo delega al wrappee si su inocencia actual es mayor a 40. Si está en 40 o menos, no hace nada.],
 )
 
 == Diagrama de clases decorator
 
-#image("uml/diagrama_clases_decorator.svg", width: 100%)
+#image("uml/diagrama_clases_decorator.svg", width: 95%)
 
 *Leyenda de flechas:*
 $arrow.r.dotted$ — implements (realización de interfaz), $arrow.r.filled $ — extends (herencia de clase),
@@ -126,6 +126,43 @@ ProfugoDecorator implementa *todos* los métodos de `IProfugo` porque es un *wra
 == Conclusión: la gracia del patrón
 
 Cada decorador agrega una responsabilidad única sin modificar la clase base, y se pueden combinar arbitrariamente sin explosión de subclases. La interfaz `IProfugo` es el pegamento que hace esto posible: sin ella, no podríamos apilar comportamientos de forma transparente.
+
+== Template Method en `Cazador`
+
+`Cazar` e `intimidar` tienen una estructura fija con pasos variables.
+Template Method evita repetir la estructura en cada subclase.
+
+- `cazar()` decide entre capturar o intimidar. La condición de captura
+  tiene una parte general (`experiencia > inocencia`) y una parte
+  específica (`doPuedeCazar()`) que cada cazador define distinto.
+- `intimidar()` siempre baja la inocencia 2 unidades, y después aplica
+  el efecto específico (`doIntimidar()`) de cada cazador.
+
+*Ventaja*: si mañana aparece un nuevo tipo de cazador, solo define
+`doPuedeCazar()` y `doIntimidar()`. La estructura del proceso de
+captura no se toca. Si olvida implementarlos, no compila.
+
+=== ¿Y si usáramos Strategy?
+
+Template Method y Strategy resuelven problemas parecidos pero con
+estructuras opuestas.
+
+Template Method usa herencia: la superclase define el esqueleto del
+algoritmo y las subclases completan los pasos variables. La variación
+está "en la clase" -- el cazador *es* de un tipo y actúa según su
+naturaleza.
+
+Strategy usa composición: el algoritmo se extrae a una interfaz
+aparte y se inyecta desde afuera. La variación está "en un objeto
+externo" -- el cazador *tiene* una estrategia que puede cambiarse en
+tiempo de ejecución.
+
+En este proyecto, Template Method es más natural porque cada cazador
+tiene una identidad fija (Urbano, Rural, Sigiloso) y no necesita
+cambiar su forma de cazar después de crearse. Con Strategy ganarías
+flexibilidad para cambiar la condición de captura dinámicamente, pero
+perderías la relación directa entre "tipo de cazador" y "forma de
+cazar" que pide el enunciado.
 
 == Patrón Singleton en `Agencia`
 
