@@ -15,6 +15,14 @@ public abstract class Cazador {
         this.experiencia = experiencia;
     }
 
+    public Set<IProfugo> getProfugosCapturados() {
+        return profugosCapturados;
+    }
+
+    public Integer cantidadDeCapturas() {
+        return profugosCapturados.size();
+    }
+
     // El cazador va a una zona a cazar
 
     public void comenzarProcesoDeCaptura(Zona zona) {
